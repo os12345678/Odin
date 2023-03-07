@@ -6,6 +6,7 @@
 %token <int> INT 
 %token PLUS MINUS TIMES DIV LPAREN RPAREN EOF
 
+(* start production *)
 %start program 
 %type <int> program
 
@@ -15,6 +16,7 @@ program:
 | expr EOF { $1 }
 ;
 
+(* grammar rules *)
 expr:
   | INT { $1 }
   | expr PLUS expr { $1 + $3 }

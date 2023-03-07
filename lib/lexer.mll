@@ -1,4 +1,4 @@
-(* define helper regexes *)
+(* define token type *)
 let digit = ['0'-'9']
 let integer = digit+
 
