@@ -1,2 +1,8 @@
 (library
- (name odin))
+ (name odin)
+ (public_name odin))
+
+(ocamllex lexer)
+
+(menhir
+ (modules parser))

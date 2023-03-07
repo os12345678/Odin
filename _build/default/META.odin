@@ -1,0 +1,6 @@
+description = ""
+requires = ""
+archive(byte) = "odin.cma"
+archive(native) = "odin.cmxa"
+plugin(byte) = "odin.cma"
+plugin(native) = "odin.cmxs"

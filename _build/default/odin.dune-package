@@ -1,0 +1,48 @@
+(lang dune 3.5)
+(name odin)
+(sections (lib .) (libexec .) (bin ../../bin))
+(files
+ (lib
+  (META
+   dune-package
+   lexer.ml
+   odin.a
+   odin.cma
+   odin.cmi
+   odin.cmt
+   odin.cmx
+   odin.cmxa
+   odin.ml
+   odin__Lexer.cmi
+   odin__Lexer.cmt
+   odin__Lexer.cmx
+   odin__Parser.cmi
+   odin__Parser.cmt
+   odin__Parser.cmti
+   odin__Parser.cmx
+   opam
+   parser.ml
+   parser.mli))
+ (libexec (odin.cmxs))
+ (bin (odin)))
+(library
+ (name odin)
+ (kind normal)
+ (archives (byte odin.cma) (native odin.cmxa))
+ (plugins (byte odin.cma) (native odin.cmxs))
+ (native_archives odin.a)
+ (main_module_name Odin)
+ (modes byte native)
+ (modules
+  (wrapped
+   (main_module_name Odin)
+   (modules
+    ((name Lexer) (obj_name odin__Lexer) (visibility public) (impl))
+    ((name Parser) (obj_name odin__Parser) (visibility public) (impl) (intf)))
+   (alias_module
+    (name Odin)
+    (obj_name odin)
+    (visibility public)
+    (kind alias)
+    (impl))
+   (wrapped true))))
