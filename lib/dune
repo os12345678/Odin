@@ -1,6 +1,5 @@
 (library
- (name odin)
- (public_name odin))
+ (name odin))
 
 (ocamllex lexer)
 

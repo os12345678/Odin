@@ -1,34 +1,48 @@
 %{
-    open Lexer
+open Ast
 %}
 
-(* token definitions *)
-%token <int> INT 
-%token PLUS MINUS TIMES DIV LPAREN RPAREN EOF
+%token <int> INT
+%token <string> ID
+%token TRUE
+%token FALSE
+%token LEQ
+%token TIMES  
+%token PLUS
+%token LPAREN
+%token RPAREN
+%token LET
+%token EQUALS
+%token IN
+%token IF
+%token THEN
+%token ELSE
+%token EOF
 
-(* start production *)
-%start program 
-%type <int> program
+%nonassoc IN
+%nonassoc ELSE
+%left LEQ
+%left PLUS
+%left TIMES  
+
+%start <Ast.expr> prog
 
 %%
 
-program:
-| expr EOF { $1 }
-;
-
-(* grammar rules *)
+prog:
+	| e = expr; EOF { e }
+	;
+	
 expr:
-  | INT { $1 }
-  | expr PLUS expr { $1 + $3 }
-  | expr MINUS expr { $1 - $3 }
-  | expr TIMES expr { $1 * $3 }
-  | expr DIV expr { $1 / $3 }
-  | LPAREN expr RPAREN { $2 }
-  ;
-
-%%
-
-let parse str =
-  let lexbuf = Lexing.from_string str in
-  let result = Parser.program Lexer.token lexbuf in
-  result
+	| i = INT { Int i }
+	| x = ID { Var x }
+	| TRUE { Bool true }
+	| FALSE { Bool false }
+	| e1 = expr; LEQ; e2 = expr { Binop (Leq, e1, e2) }
+	| e1 = expr; TIMES; e2 = expr { Binop (Mult, e1, e2) } 
+	| e1 = expr; PLUS; e2 = expr { Binop (Add, e1, e2) }
+	| LET; x = ID; EQUALS; e1 = expr; IN; e2 = expr { Let (x, e1, e2) }
+	| IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
+	| LPAREN; e=expr; RPAREN {e} 
+	;
+	

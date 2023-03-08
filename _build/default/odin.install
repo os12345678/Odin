@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/odin/META"
+  "_build/install/default/lib/odin/dune-package"
+  "_build/install/default/lib/odin/opam"
+]
+bin: [
+  "_build/install/default/bin/odin"
+]
